@@ -1,0 +1,11 @@
+{
+  "contract": {
+    "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "signerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "abi": [
+      "function calculateDrops(uint256 itemNamesLength, uint256[] itemOdds, uint256 howManyItems) view returns (uint256[])",
+      "function generateNumbers(uint256 sets, uint256 combos, uint256 min, uint256 max, uint256 s) view returns (uint256[])",
+      "function simulator(uint256 input) view returns (uint256[][])"
+    ]
+  }
+}
