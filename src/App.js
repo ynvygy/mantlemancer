@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import CustomNav from "./CustomNav";
 import mantlemancerContractData from './data/mantlemancer-contract.json';
+import mamaTokenContractData from './data/mantlemancertoken-contract.json';
 import Simulator from './Simulator'
 import Items from './Items'
 import Drops from './Drops'
 import Characters from './Characters'
+import Dashboard from './Dashboard'
+import Staking from './Staking'
 
 const App = () => {
   const [provider, setProvider] = useState(null);
@@ -15,19 +18,16 @@ const App = () => {
   const [accounts, setAccounts] = useState([]);
   const [account, setAccount] = useState("");
   const [mantlemancerContract, setMantlemancerContract] = useState({});
+  const [mamaTokenContract, setMamaTokenContract] = useState({});
   const [accountType, setAccountType] = useState("");
-  const [generatedNumbers, setGeneratedNumbers] = useState([]);
-
-  const [multiplier1, setMultiplier1] = useState(0);
-  const [multiplier2, setMultiplier2] = useState(0);
-  const [rangeMin, setRangeMin] = useState(0);
-  const [rangeMax, setRangeMax] = useState(0);
-  const [maxSum, setMaxSum] = useState(0);
 
   const savedWalletAddress = localStorage.getItem("walletAddress");
 
   const mantlemancerAddress = mantlemancerContractData.contract.address;
   const mantlemancerAbi = mantlemancerContractData.contract.abi;
+
+  const mamaTokenAddress = mamaTokenContractData.contract.address;
+  const mamaTokenAbi = mamaTokenContractData.contract.abi;
 
   const connectWallet = async () => {
     try {
@@ -39,7 +39,7 @@ const App = () => {
         const signer = provider.getSigner();
         setProvider(provider);
         setSigner(signer);
-
+        
         window.ethereum.on("accountsChanged", handleAccountsChanged);
 
         const accounts = await provider.listAccounts();
@@ -49,8 +49,10 @@ const App = () => {
         const mantlemancerContract = new ethers.Contract(mantlemancerAddress, mantlemancerAbi, provider);
         console.log(mantlemancerContract)
         setMantlemancerContract(mantlemancerContract);
+        const mamaTokenContract = new ethers.Contract(mamaTokenAddress, mamaTokenAbi, provider);
+        setMamaTokenContract(mamaTokenContract);
         localStorage.setItem("walletAddress", accounts[0]);
-
+        console.log("address", mamaTokenAbi)
       } else {
         console.log("Please install MetaMask to use this application");
       }
@@ -70,16 +72,10 @@ const App = () => {
     localStorage.setItem("walletAddress", newAccounts[0]);
   };
 
-  const generateNumbers = async () => {
-    try {
-      const result = await mantlemancerContract.generateNumbers(multiplier1, multiplier2, rangeMin, rangeMax, maxSum);
-      setGeneratedNumbers(result);
-    } catch (error) {
-      console.error("Error generating numbers:", error);
-      // Handle the error in your DApp UI
-    }
-  };
-  
+  const getBalance = async () => {
+    await mamaTokenContract.balanceOf("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
+  }
+
   useEffect(() => {
     if (savedWalletAddress) {
       setAccount(savedWalletAddress);
@@ -87,31 +83,21 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div className="theme">
       <BrowserRouter>
         <CustomNav account={account} setAccount={setAccount} connectWallet={connectWallet} disconnectHandler={disconnectHandler} accountType={accountType}/>
         <div className="dashboard">
           <Routes>
-            <Route path="/items" element={<Items mantlemancerContract={mantlemancerContract}/>} />
+            <Route path="/" element={<Dashboard account={account} mantlemancerContract={mantlemancerContract}/>}/>
+            <Route path="/items" element={<Items signer={signer} mantlemancerContract={mantlemancerContract}/>} />
             <Route path="/drops" element={<Drops mantlemancerContract={mantlemancerContract}/>} />
             <Route path="/characters" element={<Characters mantlemancerContract={mantlemancerContract}/>} />
             <Route path="/simulator" element={<Simulator mantlemancerContract={mantlemancerContract}/>} />
+            <Route path="/staking" element={<Staking signer={signer} />} />
           </Routes>
         </div>
+
       </BrowserRouter>
-      <div>
-        <input type="number" value={multiplier1} onChange={(e) => setMultiplier1(parseInt(e.target.value))} />
-        <input type="number" value={multiplier2} onChange={(e) => setMultiplier2(parseInt(e.target.value))} />
-        <input type="number" value={rangeMin} onChange={(e) => setRangeMin(parseInt(e.target.value))} />
-        <input type="number" value={rangeMax} onChange={(e) => setRangeMax(parseInt(e.target.value))} />
-        <input type="number" value={maxSum} onChange={(e) => setMaxSum(parseInt(e.target.value))} />
-        <button onClick={generateNumbers}>Generate Numbers</button>
-        <div>
-          Generated Numbers: {generatedNumbers.map((number, index) => (
-            <span key={index}>{number.toString()} </span>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };

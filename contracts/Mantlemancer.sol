@@ -8,7 +8,7 @@ contract Mantlemancer {
         uint min,
         uint max,
         uint s
-    ) external view returns (uint[] memory) {
+    ) external view returns (uint[] memory, uint256) {
         require(
             sets > 0 && combos > 0,
             "Invalid input: sets and combos must be greater than zero."
@@ -29,14 +29,40 @@ contract Mantlemancer {
             seed = uint(keccak256(abi.encodePacked(seed)));
         }
 
-        return numbers;
+        return (numbers, block.prevrandao);
+    }
+
+    function generateItem(
+        uint[][] calldata ranges
+    ) public view returns (uint[] memory, uint256) {
+        uint[] memory results = new uint[](ranges.length);
+
+        for (uint i = 0; i < ranges.length; i++) {
+            uint[] memory range = ranges[i];
+            require(range.length == 2, "Invalid range");
+
+            uint start = range[0];
+            uint end = range[1];
+
+            require(end >= start, "Invalid range");
+
+            uint randomValue = (uint(
+                keccak256(
+                    abi.encodePacked(block.prevrandao, block.timestamp, i)
+                )
+            ) % (end - start + 1)) + start;
+
+            results[i] = randomValue;
+        }
+
+        return (results, block.prevrandao);
     }
 
     function calculateDrops(
         uint256 itemNamesLength,
         uint256[] memory itemOdds,
         uint256 howManyItems
-    ) public view returns (uint256[] memory) {
+    ) public view returns (uint256[] memory, uint256) {
         require(itemNamesLength == itemOdds.length, "Array lengths mismatch");
 
         require(itemOdds.length >= howManyItems, "Insufficient item odds");
@@ -58,6 +84,36 @@ contract Mantlemancer {
             }
         }
 
+        return (selectedItems, block.prevrandao);
+    }
+
+    function verifyDrop(
+        uint256 itemNamesLength,
+        uint256[] memory itemOdds,
+        uint256 howManyItems,
+        bytes calldata hexCheck
+    ) public pure returns (uint256[] memory) {
+        require(itemNamesLength == itemOdds.length, "Array lengths mismatch");
+
+        require(itemOdds.length >= howManyItems, "Insufficient item odds");
+
+        uint256[] memory selectedItems = new uint256[](howManyItems);
+        uint256 selectedCount = 0;
+
+        for (uint256 i = 0; i < itemOdds.length; i++) {
+            uint256 randomValue = (uint256(
+                keccak256(abi.encodePacked(hexCheck, i))
+            ) % 100) + 1;
+            if (randomValue < itemOdds[i]) {
+                selectedItems[selectedCount] = i;
+                selectedCount++;
+
+                if (selectedCount >= howManyItems) {
+                    break;
+                }
+            }
+        }
+
         return selectedItems;
     }
 
@@ -66,7 +122,7 @@ contract Mantlemancer {
         // name, age, gender, height, weight
         uint256 prev = block.prevrandao;
         for (uint i = 0; i < input; i++) {
-            result[i] = new uint[](5);
+            result[i] = new uint[](7);
 
             uint256 randomNumber = uint256(
                 keccak256(abi.encodePacked(prev, i))
@@ -105,13 +161,16 @@ contract Mantlemancer {
                 }
             } else {
                 if (result[i][2] == 1) {
-                    result[i][3] = heightBase - 4 * (18 - result[i][1]);
-                    result[i][4] = weightBase - 1 * (18 - result[i][1]);
-                } else {
                     result[i][3] = heightBase - 5 * (18 - result[i][1]);
                     result[i][4] = weightBase - 2 * (18 - result[i][1]);
+                } else {
+                    result[i][3] = heightBase - 6 * (18 - result[i][1]);
+                    result[i][4] = weightBase - 3 * (18 - result[i][1]);
                 }
             }
+
+            result[i][5] = (randomNumber % 6) + 1;
+            result[i][6] = (randomNumber % 4) + 1;
         }
 
         return result;

@@ -1,13 +1,30 @@
-.dashboard {
-  margin-left: 220px;
-  margin-top: 70px;
-  padding: 20px;
+.theme {
+  height: 100%;
+  min-height: 100vh;
+  background: #FC9287;
+}
+
+.top-navbar {
+  background-color: #FC9287;
+  padding: 10px;
+}
+
+.top-navbar .navbar-brand {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.top-navbar .nav-link {
+  color: white;
+  margin-right: 10px;
 }
 
 .navbar-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .nav-link-container {
@@ -28,7 +45,7 @@
   font-weight: bold;
   font-size: 24px;
   padding: 10px;
-  background-color: #0295a9;
+  background-color: #15265C;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
 }
 
@@ -41,4 +58,385 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
   width: 100%;
   text-align: center;
+}
+
+.result-div {
+  width: 20%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.result-hex {
+  width: 40%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.result-values {
+  display: flex;
+  padding-left: 100px;
+}
+
+.result-style {
+  flex: 1;
+  text-align: left;
+}
+
+.result-title {
+  font-size: 20px;
+  line-height: 1.2;
+  color: #424242;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.drops-list {
+  list-style: none;
+  text-align: center;
+}
+
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.skill-button {
+  border-radius: 100%;
+  width: 150px;
+  height: 150px;
+  background: blue;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
+  margin:5px;
+}
+
+.mantle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mantle-title {
+  font-size: 48px;
+  line-height: 1.2;
+  color: #424242;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 15px;
+}
+
+.mantle-text {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  text-shadow: 4px 2px 15px black;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 40%;
+  margin-left: 30%;
+}
+
+.form-row label {
+  margin-right: 10px;
+}
+
+.form-row input,
+.form-row textarea {
+  flex-grow: 1;
+  width: 25%;
+}
+
+.form-row textarea {
+  height: 100px; /* Adjust the height as desired */
+}
+
+.form-row:first-child {
+  margin-bottom: 20px;
+}
+
+.submit-button {
+  margin-top: 20px;
+  width: 26%;
+  color: white;
+  font-weight: bold;
+  background-color: #15265C;
+  height: 6vh;
+  box-shadow: 0 2px 4px rgba(0, 0, 2, 1);
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.item-result {
+  height: 100%;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
+  border: 1px solid #fdd037;
+  margin-top: 20px
+}
+
+.char-result {
+  height: 35%;
+  width: 50%;
+  margin-left: 5px;
+}
+
+.traits-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.trait-values {
+  padding-right: 45%;
+}
+
+.heroes-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 50px;
+}
+
+.heroes-values {
+  display: flex;
+  padding-left: 30%;
+  padding-bottom: 15px;
+}
+
+.results {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-container {
+  width: 100%;
+}
+
+.custom-table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.custom-table th {
+  background-color: #e7e7e7;
+}
+
+.custom-table td {
+  background-color: white;
+}
+
+.column-15 {
+  width: 15%;
+}
+
+.column-10 {
+  width: 10%;
+}
+
+.blue-button {
+  background: #2196F3
+}
+
+.red-button {
+  background: #F44336;
+}
+
+.yellow-button {
+  background: #FFC107;
+}
+
+.black-button {
+  background: black;
+}
+
+.verify-button {
+  background: #228B22;
+}
+
+.small-title {
+  padding-top: 30px;
+  font-size: 24px;
+}
+
+.smaller-title {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.button5 {
+  background: #EF84F5;
+}
+
+.button6 {
+  background: #2EE09A;
+}
+
+.button7 {
+  background: #D53B6F;
+}
+
+.button8 {
+  background: #00EBC7;
+}
+
+.connected-text {
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  background-color: #15265C;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
+}
+
+.input-row {
+  display: flex;
+}
+
+.input-container-name {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.input-design {
+  border: none;
+  outline: none;
+  padding: 10px;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-size: 16px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
+.drops-align {
+  padding: 0px;
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 10px;
+  width: 50%;
+  margin-left: 44.5%;
+}
+
+.switch {
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.switch.on {
+  background-color: #66c3ff;
+}
+
+.toggle {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.switch.on .toggle {
+  transform: translateX(30px);
+}
+
+.api-text-area {
+  width: 50% !important;
+  height: 150px !important;
+  font-size: 12px;
+}
+
+.switch-label {
+  font-size: 16px;
+  margin-bottom: 2px;
+  margin-left: 5px;
+}
+
+.staker {
+  background-color: #FC9287
+}
+
+.staking {
+  margin-bottom: 10px !important;
+  margin-left: 27.5%;
+}
+
+.balances {
+  padding-top: 0px;
+  margin-bottom: 0px;
+}
+
+.balances p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.stake-button {
+  margin-top: 0;
+  height: 4vh;
+}
+
+.verify-container-name {
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  color: white;
+  margin-left: 47%;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5) !important; 
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.margin-top {
+  margin-top: 10px;
 }
