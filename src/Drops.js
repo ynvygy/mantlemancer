@@ -20,8 +20,11 @@ const Drops = ({mantlemancerContract}) => {
     {
       "items": {
         #INPUT USING "itemName": odds
+        "gold": 95,
+        "crystals": 80,
+        "enchanted sword": 40
       },
-      "itemCount": #INPUT ITEM COUNT HERE
+      "itemCount": 2 #INPUT ITEM COUNT HERE
       }
     }`;
     setVerifyOn(false);
@@ -165,7 +168,7 @@ const Drops = ({mantlemancerContract}) => {
           <form onSubmit={handleApiSubmit}>
             <div class="form-row input-container-name">
               <p className="mantle-title small-title">API Endpoint: api/v1/calculate-drops</p>
-              <label htmlFor="apiCall" className="mantle-title smaller-title">Your API Call:</label>
+              <label htmlFor="apiCall" className="mantle-title smaller-title">Your API Call (DEMO):</label>
               <textarea
                 id="apiCall"
                 className="api-text-area input-design"

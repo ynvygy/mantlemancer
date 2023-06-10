@@ -2,6 +2,29 @@ import { useState } from "react";
 import mmiContractData from './data/mamaitemnft-contract.json';
 import { useEffect } from 'react';
 import { ethers } from "ethers";
+import { create } from 'ipfs-http-client'
+import { Buffer } from 'buffer';
+import mamaitemnftContractData from './data/mamaitemnft-contract.json';
+
+const projectId = process.env.REACT_APP_INFURA_API_KEY
+const projectSecret = process.env.REACT_APP_INFURA_API_SECRET
+const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+const client = create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+  apiPath: '/api/v0',
+  headers: {
+    authorization: auth,
+  }
+})
+
+const mamaItemNftAbi = mamaitemnftContractData.contract.abi;
+const mamaItemNftAddress = mamaitemnftContractData.contract.address;
+
+const provider = new ethers.providers.JsonRpcProvider('http://localhost:8545');
+const signer = provider.getSigner();
+const mamaItemNftContract = new ethers.Contract(mamaItemNftAddress, mamaItemNftAbi, signer);
 
 const Items = ({ signer, mantlemancerContract }) => {
   const [name, setName] = useState("");
@@ -13,6 +36,7 @@ const Items = ({ signer, mantlemancerContract }) => {
   const [hexUsed, setHexUsed] = useState('');
   const [fileContent, setFileContent] = useState('');
   const [mmiTokenContract, setMmiTokenContract] = useState('');
+  const [filePath, setFilePath] = useState('');
 
   const handleApiToggle = () => {
     setApiOn(!apiOn);
@@ -37,7 +61,8 @@ const Items = ({ signer, mantlemancerContract }) => {
   };
   
   const handleMint = async () => {
-    mmiTokenContract.connect(signer).safeMint(fileContent)
+    await uploadToIPFS();
+    mmiTokenContract.connect(signer).mint(filePath, item)
   }
 
   const handleFileUpload = (event) => {
@@ -51,6 +76,19 @@ const Items = ({ signer, mantlemancerContract }) => {
   
     fileReader.readAsDataURL(file);
   };
+
+  const uploadToIPFS = async () => {
+    const file = fileContent
+    if (typeof file !== 'undefined') {
+      try {
+        const result = await client.add(file)
+        console.log(result.path)
+        setFilePath(result.path)
+      } catch (error){
+        console.log("ipfs image upload error: ", error)
+      }
+    }
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -351,7 +351,7 @@
   flex-direction: row;
   margin-bottom: 10px;
   width: 50%;
-  margin-left: 44.5%;
+  margin-left: 92%;
 }
 
 .switch {
@@ -384,7 +384,7 @@
 
 .api-text-area {
   width: 50% !important;
-  height: 150px !important;
+  height: 170px !important;
   font-size: 12px;
 }
 

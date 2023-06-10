@@ -2,19 +2,37 @@
 pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract MamaItemNFT is ERC721, Ownable {
-    using Counters for Counters.Counter;
+contract MamaItemNFT is ERC721 {
+    uint256 private tokenIdCounter;
+    struct NFTData {
+        string ipfsAddress;
+        string additionalData;
+    }
 
-    Counters.Counter private _tokenIdCounter;
+    mapping(uint256 => NFTData) private _nftData;
 
     constructor() ERC721("MamaItemToken", "MMI") {}
 
-    function safeMint(address to) public onlyOwner {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
+    function mint(
+        string memory ipfsAddress,
+        uint256[] memory additionalData
+    ) public {
+        uint256 tokenId = tokenIdCounter;
+        _safeMint(msg.sender, tokenId);
+        _nftData[tokenId] = NFTData(ipfsAddress, additionalData);
+        tokenIdCounter++;
+    }
+
+    function getNFTData(
+        uint256 tokenId
+    )
+        public
+        view
+        returns (string memory ipfsAddress, uint256[] memory additionalData)
+    {
+        NFTData memory data = _nftData[tokenId];
+        ipfsAddress = data.ipfsAddress;
+        additionalData = data.additionalData;
     }
 }
