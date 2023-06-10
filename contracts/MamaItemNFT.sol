@@ -7,7 +7,7 @@ contract MamaItemNFT is ERC721 {
     uint256 private tokenIdCounter;
     struct NFTData {
         string ipfsAddress;
-        string additionalData;
+        uint[] additionalData;
     }
 
     mapping(uint256 => NFTData) private _nftData;
